@@ -37,4 +37,6 @@ class ApiUrls {
   static const String getCustomerActivity = "$baseUrl/customer/activity-history/my-activity";
   static const String getCardsByBusiness = "$baseUrl/customers/cards/business";
   static const String getTransactionHistory = "$baseUrl/customer/transaction-history/earned-history";
+  static const String googleWalletLink = "$baseUrl/customer/wallet/google-wallet-link";
+  static const String getMyAddedCards = "$baseUrl/customers/cards/my-cards";
 }

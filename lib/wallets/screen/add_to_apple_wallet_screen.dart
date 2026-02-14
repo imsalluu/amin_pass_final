@@ -1,16 +1,33 @@
+import 'package:amin_pass/card/model/loyalty_card_model.dart';
 import 'package:amin_pass/common/screen/bottom_nav_bar.dart';
+import 'package:amin_pass/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AddToAppleWalletScreen extends StatelessWidget {
-  final String shopName;
+  final LoyaltyCardModel card;
 
-  const AddToAppleWalletScreen({super.key, required this.shopName});
+  AddToAppleWalletScreen({super.key, required this.card});
+
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  Color _parseColor(String hex, Color fallback) {
+    try {
+      if (hex.isEmpty) return fallback;
+      String cleanHex = hex.replaceAll('#', '');
+      if (cleanHex.length == 6) cleanHex = 'FF$cleanHex';
+      return Color(int.parse('0x$cleanHex'));
+    } catch (e) {
+      return fallback;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+
     final sw = MediaQuery.of(context).size.width;
     const desktopBreakpoint = 900;
     final isDesktop = sw >= desktopBreakpoint;
@@ -18,150 +35,112 @@ class AddToAppleWalletScreen extends StatelessWidget {
     final buttonTextColor = isDark ? Colors.white : Colors.black;
 
     // Main content
+    final textColor = _parseColor(card.textColor, Colors.black);
+    final cardBg = _parseColor(card.cardBackground, const Color(0xFF7AA3CC));
+
     final content = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // 🔹 Loyalty Card
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF7AA3CC),
+              color: cardBg,
               borderRadius: BorderRadius.circular(24),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                // 🔸 Shop name
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 14,
+                          backgroundImage: NetworkImage(card.logo),
+                          backgroundColor: Colors.white,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          card.companyName,
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: textColor),
+                        ),
+                      ],
+                    ),
                     Text(
-                      "☕ $shopName",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 15,
-                      ),
+                      "Points ${profileController.rewardPoints.value}",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: textColor),
                     ),
                   ],
                 ),
-                const SizedBox(height: 18),
-                // 🔸 Coffee icons row
-                Row(
-                  children: List.generate(
-                    7,
-                        (index) => const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Icon(
-                        Icons.coffee,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 12),
-                const Text(
-                  "6th ☕ on us",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: Colors.black,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    card.stampBackground.isNotEmpty ? card.stampBackground : 'https://img.freepik.com/free-vector/loyalty-program-illustration_335657-3389.jpg',
+                    height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(height: 120, color: Colors.grey.shade200, child: const Icon(Icons.image_not_supported)),
                   ),
                 ),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      "Stamps\n2",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        card.cardDesc,
+                        style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      "Available Rewards\n0 rewards",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      card.rewardProgram.toUpperCase(),
+                      style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                QrImageView(
-                  data: "https://example.com/coffee",
-                  version: QrVersions.auto,
-                  size: 120,
-                  backgroundColor: Colors.white,
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                  child: QrImageView(data: card.id, version: QrVersions.auto, size: 80),
                 ),
               ],
             ),
           ),
-
           const SizedBox(height: 40),
-
-          // 🔘 Add Button
           SizedBox(
             width: double.infinity,
-            height: 48,
+            height: 50,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => BottomNavController()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF7AA3CC),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 0,
-              ),
-              child: const Text(
-                "Add",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavController())),
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF7AA3CC), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              child: const Text("Add", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // 🔘 Cancel Button
           SizedBox(
             width: double.infinity,
-            height: 48,
+            height: 50,
             child: OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: buttonTextColor.withOpacity(0.2)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                backgroundColor:
-                isDark ? Colors.grey.shade800 : Colors.white,
+                side: BorderSide(color: buttonTextColor.withOpacity(0.3)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: Text(
-                "Cancel",
-                style: TextStyle(
-                  color: buttonTextColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: Text("Cancel", style: TextStyle(color: buttonTextColor, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
       ),
     );
+
+
 
     // 💻 Desktop/Web layout
     if (isDesktop) {

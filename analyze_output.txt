@@ -1,0 +1,120 @@
+Analyzing amin_pass...                                          
+
+warning • Unused import: 'package:amin_pass/auth/screen/login_screen.dart' • lib/app/app.dart:1:8 • unused_import
+warning • Dead code • lib/auth/controller/login_controller.dart:57:32 • dead_code
+warning • The left operand can't be null, so the right operand is never executed • lib/auth/controller/login_controller.dart:57:35 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed • lib/auth/controller/login_controller.dart:58:37 • dead_null_aware_expression
+warning • Unused import: 'package:amin_pass/app/token_service.dart' • lib/auth/repo/auth_repository.dart:3:8 • unused_import
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/forgot_password_email_screen.dart:113:25 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/forgot_password_email_screen.dart:121:44 • use_build_context_synchronously
+warning • Unused import: 'package:amin_pass/auth/screen/scan_shop_screen.dart' • lib/auth/screen/login_screen.dart:3:8 • unused_import
+warning • Unused import: 'package:amin_pass/common/controller/auth_controller.dart' • lib/auth/screen/login_screen.dart:6:8 • unused_import
+warning • Unused import: 'package:amin_pass/auth/screen/login_screen.dart' • lib/auth/screen/otp_forgot_password_screen.dart:2:8 • unused_import
+warning • Unused import: 'package:amin_pass/auth/screen/scan_shop_screen.dart' • lib/auth/screen/otp_forgot_password_screen.dart:4:8 • unused_import
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/otp_forgot_password_screen.dart:120:23 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/otp_forgot_password_screen.dart:126:42 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/reset_password_screen.dart:178:23 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/reset_password_screen.dart:184:42 • use_build_context_synchronously
+warning • Unused import: 'package:amin_pass/auth/screen/otp_forgot_password_screen.dart' • lib/auth/screen/sign_up_screen.dart:2:8 • unused_import
+warning • The declaration '_scanQRCode' isn't referenced • lib/auth/screen/sign_up_screen.dart:25:16 • unused_element
+warning • The value of the local variable 'scannedData' isn't used • lib/auth/screen/sign_up_screen.dart:26:11 • unused_local_variable
+warning • The '!' will have no effect because the receiver can't be null • lib/auth/screen/sign_up_screen.dart:116:73 • unnecessary_non_null_assertion
+warning • The '!' will have no effect because the receiver can't be null • lib/auth/screen/sign_up_screen.dart:137:73 • unnecessary_non_null_assertion
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/sign_up_screen.dart:217:29 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/sign_up_screen.dart:225:48 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/verify_otp.dart:100:23 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/auth/screen/verify_otp.dart:106:42 • use_build_context_synchronously
+  error • The method '[]' can't be unconditionally invoked because the receiver can be 'null' • lib/card/controller/loyalty_card_controller.dart:33:147 • unchecked_use_of_nullable_value
+  error • The method '[]' can't be unconditionally invoked because the receiver can be 'null' • lib/card/controller/loyalty_card_controller.dart:33:188 • unchecked_use_of_nullable_value
+  error • Undefined name 'myGroupedCards' • lib/card/controller/loyalty_card_controller.dart:34:9 • undefined_identifier
+  error • Undefined name 'myGroupedCards' • lib/card/controller/loyalty_card_controller.dart:35:56 • undefined_identifier
+   info • Type could be non-nullable • lib/card/controller/loyalty_card_controller.dart:79:20 • unnecessary_nullable_for_final_variable_declarations
+   info • The local variable '_buildCard' starts with an underscore • lib/card/screen/loyalty_card_screen.dart:35:12 • no_leading_underscores_for_local_identifiers
+  error • The getter 'myGroupedCards' isn't defined for the type 'LoyaltyCardController' • lib/card/screen/loyalty_card_screen.dart:154:22 • undefined_getter
+   info • An uninitialized variable should have an explicit type annotation • lib/card/screen/loyalty_card_screen.dart:171:13 • prefer_typing_uninitialized_variables
+   info • The variable name 'List' isn't a lowerCamelCase identifier • lib/card/screen/loyalty_card_screen.dart:171:13 • non_constant_identifier_names
+warning • The value of the local variable 'List' isn't used • lib/card/screen/loyalty_card_screen.dart:171:13 • unused_local_variable
+  error • Expected to find ';' • lib/card/screen/loyalty_card_screen.dart:171:13 • expected_token
+  error • Illegal assignment to non-assignable expression • lib/card/screen/loyalty_card_screen.dart:171:17 • illegal_assignment_to_non_assignable
+  error • Missing selector such as '.identifier' or '[0]' • lib/card/screen/loyalty_card_screen.dart:171:17 • missing_assignable_selector
+  error • Expected a type name • lib/card/screen/loyalty_card_screen.dart:171:18 • expected_type_name
+  error • Expected to find ',' • lib/card/screen/loyalty_card_screen.dart:171:36 • expected_token
+  error • Undefined name 'card' • lib/card/screen/loyalty_card_screen.dart:171:36 • undefined_identifier
+  error • Expected to find ',' • lib/card/screen/loyalty_card_screen.dart:171:46 • expected_token
+  error • Undefined name 'points' • lib/card/screen/loyalty_card_screen.dart:171:46 • undefined_identifier
+  error • The operator '>' isn't defined for the type 'Set<InvalidType>' • lib/card/screen/loyalty_card_screen.dart:171:53 • undefined_operator
+  error • Undefined name 'allCards' • lib/card/screen/loyalty_card_screen.dart:171:55 • undefined_identifier
+  error • The getter 'myGroupedCards' isn't defined for the type 'LoyaltyCardController' • lib/card/screen/loyalty_card_screen.dart:172:39 • undefined_getter
+  error • Undefined name 'allCards' • lib/card/screen/loyalty_card_screen.dart:174:11 • undefined_identifier
+  error • Undefined name 'allCards' • lib/card/screen/loyalty_card_screen.dart:178:11 • undefined_identifier
+  error • Undefined name 'allCards' • lib/card/screen/loyalty_card_screen.dart:189:20 • undefined_identifier
+  error • Undefined name 'allCards' • lib/card/screen/loyalty_card_screen.dart:191:24 • undefined_identifier
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/card/screen/loyalty_card_screen.dart:201:36 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/card/screen/loyalty_card_screen.dart:236:51 • deprecated_member_use
+warning • Unused import: 'dart:convert' • lib/common/controller/shop_branch_controller.dart:1:8 • unused_import
+warning • Unused import: 'package:http/http.dart' • lib/common/controller/shop_branch_controller.dart:2:8 • unused_import
+warning • Unused import: 'package:amin_pass/app/token_service.dart' • lib/common/controller/shop_branch_controller.dart:4:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/common/screen/bottom_nav_bar.dart:38:37 • deprecated_member_use
+   info • The local variable '_screens' starts with an underscore • lib/common/screen/bottom_nav_bar.dart:103:24 • no_leading_underscores_for_local_identifiers
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/common/screen/bottom_nav_bar.dart:225:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/common/screen/bottom_nav_bar.dart:263:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/common/screen/bottom_nav_bar.dart:308:41 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/common/screen/shop_name_show_screen.dart:18:51 • deprecated_member_use
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' • lib/core/services/network/network_client.dart:2:8 • unnecessary_import
+   info • Unnecessary use of 'toList' in a spread • lib/home/screen/home_screen.dart:353:18 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/home/screen/notification_screen.dart:80:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/home/screen/notification_screen.dart:87:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/home/screen/notification_screen.dart:109:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/home/screen/notification_screen.dart:123:39 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/home/screen/notification_screen.dart:135:38 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/home/screen/notification_screen.dart:186:36 • deprecated_member_use
+warning • Unused import: 'package:get/get.dart' • lib/main.dart:4:8 • unused_import
+   info • Don't use 'BuildContext's across async gaps • lib/onBoarding/on_boarding_screen_3.dart:91:29 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/onBoarding/splash_screen.dart:53:9 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/onBoarding/splash_screen.dart:65:11 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/onBoarding/splash_screen.dart:75:9 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/onBoarding/splash_screen.dart:82:9 • use_build_context_synchronously
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/my_qr_code.dart:60:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/my_qr_code.dart:79:25 • deprecated_member_use
+warning • Unused import: 'package:amin_pass/auth/screen/login_screen.dart' • lib/profile/screen/profile_screen.dart:1:8 • unused_import
+warning • Unused import: 'package:amin_pass/common/screen/shop_name_show_screen.dart' • lib/profile/screen/profile_screen.dart:5:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/profile_screen.dart:141:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/profile_screen.dart:163:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/profile_screen.dart:184:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/transaction_history.dart:45:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/transaction_history.dart:95:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/profile/screen/transaction_history.dart:135:64 • deprecated_member_use
+warning • The value of the local variable 'crossAxisCount' isn't used • lib/rewards/rewards_screen.dart:263:11 • unused_local_variable
+warning • Dead code • lib/rewards/rewards_screen.dart:323:35 • dead_code
+warning • The left operand can't be null, so the right operand is never executed • lib/rewards/rewards_screen.dart:323:38 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed • lib/rewards/rewards_screen.dart:332:39 • dead_null_aware_expression
+warning • The declaration '_sectionTitle' isn't referenced • lib/settings/screen/notification_screen.dart:24:10 • unused_element
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/settings/screen/notification_screen.dart:130:19 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/settings/screen/notification_screen.dart:145:19 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/settings/screen/notification_screen.dart:160:19 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/settings/screen/notification_screen.dart:175:19 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps • lib/settings/screen/password_change_screen.dart:61:9 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/settings/screen/password_change_screen.dart:67:28 • use_build_context_synchronously
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/settings/screen/password_change_screen.dart:265:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/settings/screen/privacy_policy_screen.dart:17:31 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/settings/screen/setting_screen.dart:64:15 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/settings/screen/terms_and_condition.dart:17:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/theme/theme_data.dart:35:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/theme/theme_data.dart:69:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/wallets/screen/add_to_apple_wallet_screen.dart:133:57 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_apple_wallet_screen.dart:149:36 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_apple_wallet_screen.dart:184:51 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_apple_wallet_screen.dart:187:53 • deprecated_member_use
+warning • Unused import: 'package:amin_pass/common/screen/bottom_nav_bar.dart' • lib/wallets/screen/add_to_google_wallet_screen.dart:3:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/wallets/screen/add_to_google_wallet_screen.dart:154:57 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_google_wallet_screen.dart:169:36 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_google_wallet_screen.dart:204:51 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_google_wallet_screen.dart:207:53 • deprecated_member_use
+warning • Unused import: 'package:amin_pass/card/model/loyalty_card_model.dart' • lib/wallets/screen/add_to_wallet_screen.dart:2:8 • unused_import
+warning • The value of the local variable 'isDesktop' isn't used • lib/wallets/screen/add_to_wallet_screen.dart:44:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/wallets/screen/add_to_wallet_screen.dart:111:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/wallets/screen/add_to_wallet_screen.dart:252:63 • deprecated_member_use
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/wallets/screen/add_to_wallet_screen.dart:265:51 • deprecated_member_use
+warning • Unused import: 'package:amin_pass/main.dart' • test/widget_test.dart:12:8 • unused_import
+
+116 issues found. (ran in 1.6s)

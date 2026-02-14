@@ -1,6 +1,7 @@
 import 'package:amin_pass/auth/screen/login_screen.dart';
 import 'package:amin_pass/auth/screen/scan_shop_screen.dart';
 import 'package:amin_pass/common/controller/auth_controller.dart';
+import 'package:amin_pass/common/controller/shop_branch_controller.dart';
 import 'package:amin_pass/common/screen/shop_name_show_screen.dart';
 import 'package:amin_pass/home/screen/notification_screen.dart';
 import 'package:amin_pass/profile/controller/profile_controller.dart';
@@ -251,10 +252,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileOption(
             icon: Icons.wallet,
             title: "Add to Wallet",
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddToWalletScreen(shopName: "Starbucks")),
-            ),
+            onTap: () {
+              final activeBusinessName = Get.find<ShopBranchController>().branches.firstWhereOrNull((element) => element.businessId == Get.find<ShopBranchController>().activeBusinessId.value)?.businessName ?? "Shop";
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddToWalletScreen(shopName: activeBusinessName)),
+              );
+            },
             iconColor: const Color(0xff7AA3CC),
           ),
           ProfileOption(
@@ -338,10 +342,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: bgColor,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: textColor),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

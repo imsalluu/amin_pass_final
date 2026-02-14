@@ -32,7 +32,7 @@ class LoyaltyCardScreen extends StatelessWidget {
     final isDesktop = sw >= desktopBreakpoint;
 
     // 🔹 Build a single card item
-    Widget _buildCard(LoyaltyCardModel card) {
+    Widget _buildCard(LoyaltyCardModel card, int businessPoints) {
       return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
@@ -50,12 +50,14 @@ class LoyaltyCardScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 14,
-                      backgroundImage: NetworkImage(card.logo),
-                      backgroundColor: Colors.white,
-                    ),
-                    const SizedBox(width: 8),
+                    if (card.logo.isNotEmpty) ...[
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundImage: NetworkImage(card.logo),
+                        backgroundColor: Colors.white,
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                     Text(
                       card.companyName,
                       style: TextStyle(
@@ -66,14 +68,14 @@ class LoyaltyCardScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Obx(() => Text(
-                  "Points ${profileController.rewardPoints.value}",
+                Text(
+                  "Points $businessPoints",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                     color: _parseColor(card.textColor, Colors.black),
                   ),
-                )),
+                ),
               ],
             ),
 
@@ -149,7 +151,7 @@ class LoyaltyCardScreen extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
       
-      if (controller.cards.isEmpty) {
+      if (controller.myGroupedCards.isEmpty) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +159,7 @@ class LoyaltyCardScreen extends StatelessWidget {
               Icon(Icons.credit_card_off_outlined, size: 60, color: Colors.grey.shade400),
               const SizedBox(height: 16),
               Text(
-                "No cards available for this branch",
+                "No cards available",
                 style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
               ),
             ],
@@ -165,10 +167,30 @@ class LoyaltyCardScreen extends StatelessWidget {
         );
       }
       
+      // Flatten the grouped structure for the ListView
+      final allCards = <({LoyaltyCardModel card, int points})>[];
+      for (var business in controller.myGroupedCards) {
+        for (var card in business.cards) {
+          allCards.add((card: card, points: business.points));
+        }
+      }
+
+      if (allCards.isEmpty) {
+        return Center(
+          child: Text(
+            "No cards available",
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
+          ),
+        );
+      }
+
       return ListView.builder(
         padding: const EdgeInsets.only(top: 30, bottom: 40),
-        itemCount: controller.cards.length,
-        itemBuilder: (context, index) => _buildCard(controller.cards[index]),
+        itemCount: allCards.length,
+        itemBuilder: (context, index) {
+          final item = allCards[index];
+          return _buildCard(item.card, item.points);
+        },
       );
     });
 
@@ -223,10 +245,6 @@ class LoyaltyCardScreen extends StatelessWidget {
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: theme.iconTheme.color),
-          onPressed: () => Navigator.pop(context),
-        ),
         centerTitle: true,
       ),
       body: mainWidget,

@@ -19,6 +19,9 @@ class LoyaltyCardModel {
   final String inactiveStamp;
   final String textColor;
   final String earnedRewardMessage;
+  final bool isAddedToGoogleWallet;
+  final bool isAddedToAppleWallet;
+  final bool isAddedToWallet;
 
   LoyaltyCardModel({
     required this.id,
@@ -41,6 +44,9 @@ class LoyaltyCardModel {
     required this.inactiveStamp,
     required this.textColor,
     required this.earnedRewardMessage,
+    required this.isAddedToGoogleWallet,
+    required this.isAddedToAppleWallet,
+    required this.isAddedToWallet,
   });
 
   factory LoyaltyCardModel.fromJson(Map json) {
@@ -65,6 +71,34 @@ class LoyaltyCardModel {
       inactiveStamp: (json['inactiveStamp'] ?? '').toString(),
       textColor: (json['textColor'] ?? '').toString(),
       earnedRewardMessage: (json['earnedRewardMessage'] ?? '').toString(),
+      isAddedToGoogleWallet: json['isAddedToGoogleWallet'] == true,
+      isAddedToAppleWallet: json['isAddedToAppleWallet'] == true,
+      isAddedToWallet: json['isAddedToWallet'] == true,
+    );
+  }
+}
+
+class BusinessGroupedCardsModel {
+  final String businessId;
+  final String businessName;
+  final int points;
+  final List<LoyaltyCardModel> cards;
+
+  BusinessGroupedCardsModel({
+    required this.businessId,
+    required this.businessName,
+    required this.points,
+    required this.cards,
+  });
+
+  factory BusinessGroupedCardsModel.fromJson(Map json) {
+    return BusinessGroupedCardsModel(
+      businessId: (json['businessId'] ?? '').toString(),
+      businessName: (json['businessName'] ?? '').toString(),
+      points: (json['points'] ?? 0) is int ? json['points'] : int.tryParse(json['points'].toString()) ?? 0,
+      cards: (json['cards'] is List)
+          ? (json['cards'] as List).map((e) => LoyaltyCardModel.fromJson(e)).toList()
+          : [],
     );
   }
 }
