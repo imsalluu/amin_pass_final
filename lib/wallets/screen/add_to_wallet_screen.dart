@@ -69,9 +69,7 @@ class AddToWalletScreen extends StatelessWidget {
         );
       }
 
-      if (cardController.selectedCard.value == null && cardController.cards.isNotEmpty) {
-        cardController.selectedCard.value = cardController.cards.first;
-      }
+
 
       return SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),

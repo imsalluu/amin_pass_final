@@ -2,6 +2,7 @@ import 'package:amin_pass/card/controller/loyalty_card_controller.dart';
 import 'package:amin_pass/card/model/loyalty_card_model.dart';
 import 'package:amin_pass/common/screen/bottom_nav_bar.dart';
 import 'package:amin_pass/profile/controller/profile_controller.dart';
+import 'package:amin_pass/wallets/widgets/wallet_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -24,6 +25,23 @@ class AddToGoogleWalletScreen extends StatelessWidget {
     } catch (e) {
       return fallback;
     }
+  }
+
+  void _showConfirmationDialogAfterDelay(BuildContext context) {
+    debugPrint("⏱️ Starting 5-second confirmation timer");
+    Future.delayed(const Duration(seconds: 5), () {
+      if (context.mounted) {
+        debugPrint("✅ Showing confirmation dialog");
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => WalletConfirmationDialog(
+            cardId: card.id,
+            walletType: "Google Wallet",
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -127,6 +145,11 @@ class AddToGoogleWalletScreen extends StatelessWidget {
                   final uri = Uri.parse(link);
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    
+                    // Show confirmation dialog after 5 seconds
+                    if (context.mounted) {
+                      _showConfirmationDialogAfterDelay(context);
+                    }
                   } else {
                     Get.snackbar("Error", "Could not open Google Wallet link", snackPosition: SnackPosition.BOTTOM);
                   }

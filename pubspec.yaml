@@ -47,6 +47,10 @@ dependencies:
   get:
   get_storage:
   url_launcher: ^6.3.1
+  path_provider: ^2.1.5
+  flutter_wallet_card: ^4.0.4
+  archive: ^3.6.1
+  open_file_plus: ^3.4.1+1
 
 dev_dependencies:
   flutter_test:

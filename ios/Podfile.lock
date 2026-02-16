@@ -1,10 +1,16 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_wallet_card (1.0.0):
+    - Flutter
+    - OpenSSL-Universal
   - image_picker_ios (0.0.1):
     - Flutter
   - mobile_scanner (7.0.0):
     - Flutter
     - FlutterMacOS
+  - open_file_plus (1.0.0):
+    - Flutter
+  - OpenSSL-Universal (3.3.3001)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -13,18 +19,28 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_wallet_card (from `.symlinks/plugins/flutter_wallet_card/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
+  - open_file_plus (from `.symlinks/plugins/open_file_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - OpenSSL-Universal
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_wallet_card:
+    :path: ".symlinks/plugins/flutter_wallet_card/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   mobile_scanner:
     :path: ".symlinks/plugins/mobile_scanner/darwin"
+  open_file_plus:
+    :path: ".symlinks/plugins/open_file_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   url_launcher_ios:
@@ -32,8 +48,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_wallet_card: fa464b6f36c9c7ffda50f48b659b2b056d2eeaa8
   image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
+  open_file_plus: b0a12f9db69dfdab3b4751761753d2ba229ae6c1
+  OpenSSL-Universal: 6082b0bf950e5636fe0d78def171184e2b3899c2
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
 

@@ -65,6 +65,9 @@ class LoyaltyCardController extends GetxController {
         final List list = (data is List) ? data : [];
         
         cards.assignAll(list.map((e) => LoyaltyCardModel.fromJson(e)).toList());
+        if (cards.isNotEmpty && selectedCard.value == null) {
+          selectedCard.value = cards.first;
+        }
         debugPrint('✅ LoyaltyCardController: Fetched ${cards.length} cards');
       } else if (response.isSuccess == false) {
         debugPrint('❌ LoyaltyCardController Error: ${response.errorMassage}');
@@ -93,5 +96,48 @@ class LoyaltyCardController extends GetxController {
       isLoading.value = false;
     }
     return null;
+  }
+
+  Future<String?> getAppleWalletLink(String cardId) async {
+    try {
+      isLoading.value = true;
+      final response = await _client.getRequest("${ApiUrls.appleWalletLink}/$cardId");
+      if (response.isSuccess == true) {
+        final resData = response.responseData is Map ? response.responseData as Map : {};
+        final data = (resData['data'] is Map) ? resData['data'] as Map : {};
+        return data['link']?.toString();
+      } else {
+        debugPrint('❌ LoyaltyCardController getAppleWalletLink Error: ${response.errorMassage}');
+      }
+    } catch (e) {
+      debugPrint('❌ LoyaltyCardController getAppleWalletLink Exception: $e');
+    } finally {
+      isLoading.value = false;
+    }
+    return null;
+  }
+
+  Future<bool> saveCardToWallet(String cardId) async {
+    try {
+      isLoading.value = true;
+      debugPrint('📤 Calling save-card API for card: $cardId');
+      final response = await _client.postRequest(
+        "${ApiUrls.saveCardToWallet}/$cardId",
+        body: {},
+      );
+      
+      if (response.isSuccess == true) {
+        debugPrint('✅ Card saved to wallet successfully');
+        return true;
+      } else {
+        debugPrint('❌ LoyaltyCardController saveCardToWallet Error: ${response.errorMassage}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('❌ LoyaltyCardController saveCardToWallet Exception: $e');
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
