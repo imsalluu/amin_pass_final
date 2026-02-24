@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:apple_passkit/apple_passkit.dart';
 
 class AddToAppleWalletScreen extends StatelessWidget {
   final LoyaltyCardModel card;
@@ -49,13 +50,37 @@ class AddToAppleWalletScreen extends StatelessWidget {
   }
 
   Future<void> _addToAppleWallet(BuildContext context) async {
-    final link = await cardController.getAppleWalletLink(card.id);
-    debugPrint("🍎 Apple Wallet Link: $link");
+    final response = await cardController.getAppleWalletLink(card.id);
+    debugPrint("🍎 Apple Wallet Response: $response");
 
     if (!context.mounted) return;
 
-    if (link != null && link.isNotEmpty) {
-      await _downloadAndOpenPass(context, link);
+    if (response != null && response['downloadLink'] != null) {
+      final String downloadLink = response['downloadLink'];
+      final String? serialNumber = response['serialNumber'];
+      final String? authToken = response['authenticationToken'];
+      
+      // Manual Device Registration (as requested for testing/sync)
+      if (serialNumber != null && authToken != null) {
+        final deviceId = "DEVICE_${profileController.id.value}"; // Using a unique device identifier
+        const passTypeId = "pass.com.aminpass.loyalty";
+        
+        debugPrint("📱 Registering device for Apple Wallet...");
+        await cardController.registerAppleDevice(
+          deviceId: deviceId,
+          passTypeId: passTypeId,
+          serialNumber: serialNumber,
+          authToken: authToken,
+        );
+      }
+
+      if (Platform.isIOS) {
+        // Option B: Seamless (Best UX)
+        await _addSeamlesslyToWallet(context, downloadLink);
+      } else {
+        // Fallback for non-iOS or desktop
+        await _downloadAndOpenPass(context, downloadLink);
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -63,6 +88,98 @@ class AddToAppleWalletScreen extends StatelessWidget {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+
+  Future<void> _addSeamlesslyToWallet(BuildContext context, String url) async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text("Preparing your pass..."),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    try {
+      debugPrint("📥 Downloading pass for seamless integration: $url");
+      
+      final client = http.Client();
+      final headers = Get.find<NetworkClient>().commonHeaders();
+      
+      final response = await client.get(
+        Uri.parse(url),
+        headers: headers,
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw Exception('Download timeout');
+        },
+      );
+
+      // Close loading dialog
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        debugPrint("✅ Downloaded ${bytes.length} bytes");
+
+        // Basic PKPass validation: Check for zip magic number 'PK' (0x50 0x4B)
+        if (bytes.length > 2 && bytes[0] == 0x50 && bytes[1] == 0x4B) {
+          debugPrint("🧐 Byte header check: Valid ZIP/PKPass header found");
+        } else {
+          debugPrint("⚠️ Byte header check: NOT a valid ZIP/PKPass header! First bytes: ${bytes.take(4).toList()}");
+        }
+        
+        final ApplePassKit passkit = ApplePassKit();
+        
+        // Show the native "Add to Wallet" sheet
+        await passkit.addPass(response.bodyBytes);
+        
+        if (!context.mounted) return;
+        
+        debugPrint("✅ Native Wallet sheet displayed");
+        
+        // Show confirmation dialog after 5 seconds
+        _showConfirmationDialogAfterDelay(context);
+      } else {
+        throw Exception('Server returned status ${response.statusCode}');
+      }
+      
+      client.close();
+    } catch (e) {
+      debugPrint("❌ Error in seamless integration: $e");
+      
+      if (context.mounted) {
+        // Check if loading dialog is still visible and close it
+        // Note: Navigator.pop might have already been called in success case
+      }
+      
+      // Fallback to Option A: Direct Download/Open if seamless fails
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Seamless integration failed, trying alternative..."),
+            backgroundColor: Colors.orange,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+        await _downloadAndOpenPass(context, url);
+      }
     }
   }
 
@@ -323,7 +440,6 @@ class AddToAppleWalletScreen extends StatelessWidget {
                           backgroundImage: NetworkImage(card.logo),
                           backgroundColor: Colors.white,
                         ),
-                        const SizedBox(width: 8),
                         Text(
                           card.companyName,
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: textColor),

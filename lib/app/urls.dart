@@ -41,4 +41,8 @@ class ApiUrls {
   static const String appleWalletLink = "$baseUrl/customer/wallet/apple-wallet-link";
   static const String getMyAddedCards = "$baseUrl/customers/cards/my-cards";
   static const String saveCardToWallet = "$baseUrl/customer/wallet/save-card";
+  static const String appleRegistrationBase = "$baseUrl/customer/apple-wallet-wws/v1/devices";
+  static const String myWallets = "$baseUrl/customer/wallet/my-wallets";
+  static const String appleWalletInfo = "$baseUrl/customer/wallet/apple-wallet-info";
+  static const String getNotification = "$baseUrl/customer/notification";
 }

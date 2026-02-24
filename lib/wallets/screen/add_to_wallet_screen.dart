@@ -46,7 +46,9 @@ class AddToWalletScreen extends StatelessWidget {
     final walletTextColor = isDark ? Colors.white : Colors.black;
 
     // Ensure fresh data
-    cardController.fetchLoyaltyCards();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      cardController.fetchLoyaltyCards();
+    });
 
     final content = Obx(() {
       if (cardController.isLoading.value) {
@@ -183,7 +185,7 @@ class AddToWalletScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Spacer(),
+                          const SizedBox(height: 8),
                           // QR
                           Container(
                             padding: const EdgeInsets.all(6),

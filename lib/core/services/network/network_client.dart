@@ -70,13 +70,14 @@ class NetworkClient {
   }
 
   Future<NetworkResponse> postRequest(String url,
-      {Map<String, dynamic>? body, bool skipAuth = false}) async {
+      {Map<String, dynamic>? body, bool skipAuth = false, Map<String, String>? customHeaders}) async {
     try {
       Uri uri = Uri.parse(url);
-      _logRequest(url, headers: commonHeaders(), body: body);
+      final headers = customHeaders ?? commonHeaders();
+      _logRequest(url, headers: headers, body: body);
       final Response response = await post(
         uri,
-        headers: commonHeaders(),
+        headers: headers,
         body: jsonEncode(body),
       );
       _logResponse(response);

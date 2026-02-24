@@ -98,19 +98,96 @@ class LoyaltyCardController extends GetxController {
     return null;
   }
 
-  Future<String?> getAppleWalletLink(String cardId) async {
+  Future<Map<String, dynamic>?> getAppleWalletLink(String cardId) async {
     try {
       isLoading.value = true;
       final response = await _client.getRequest("${ApiUrls.appleWalletLink}/$cardId");
       if (response.isSuccess == true) {
         final resData = response.responseData is Map ? response.responseData as Map : {};
         final data = (resData['data'] is Map) ? resData['data'] as Map : {};
-        return data['link']?.toString();
+        
+        final String? link = data['downloadLink']?.toString() ?? data['link']?.toString();
+        final String? token = data['authenticationToken']?.toString();
+        final String? serialNumber = data['serialNumber']?.toString();
+        
+        if (link != null) {
+          return {
+            'downloadLink': link,
+            'authenticationToken': token,
+            'serialNumber': serialNumber,
+          };
+        }
       } else {
         debugPrint('❌ LoyaltyCardController getAppleWalletLink Error: ${response.errorMassage}');
       }
     } catch (e) {
       debugPrint('❌ LoyaltyCardController getAppleWalletLink Exception: $e');
+    } finally {
+      isLoading.value = false;
+    }
+    return null;
+  }
+
+  Future<bool> registerAppleDevice({
+    required String deviceId,
+    required String passTypeId,
+    required String serialNumber,
+    required String authToken,
+  }) async {
+    try {
+      isLoading.value = true;
+      final String url = "${ApiUrls.appleRegistrationBase}/$deviceId/registrations/$passTypeId/$serialNumber";
+      
+      final headers = _client.commonHeaders();
+      headers['Authorization'] = 'ApplePass $authToken';
+
+      debugPrint('📤 Calling Register Device API: $url');
+      final response = await _client.postRequest(
+        url,
+        body: {"pushToken": "any_random_string_for_testing"},
+        customHeaders: headers,
+      );
+      
+      if (response.isSuccess == true) {
+        debugPrint('✅ Device registered successfully');
+        return true;
+      } else {
+        debugPrint('❌ LoyaltyCardController registerAppleDevice Error: ${response.errorMassage}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('❌ LoyaltyCardController registerAppleDevice Exception: $e');
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchMyWallets(String customerId) async {
+    try {
+      isLoading.value = true;
+      final response = await _client.getRequest("${ApiUrls.myWallets}/$customerId");
+      if (response.isSuccess == true) {
+        debugPrint('✅ LoyaltyCardController fetchMyWallets Success');
+        // Handle response data if needed for UI
+      }
+    } catch (e) {
+      debugPrint('❌ LoyaltyCardController fetchMyWallets Exception: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<Map<dynamic, dynamic>?> getAppleWalletInfo(String serialNumber) async {
+    try {
+      isLoading.value = true;
+      final response = await _client.getRequest("${ApiUrls.appleWalletInfo}/$serialNumber");
+      if (response.isSuccess == true) {
+        final resData = response.responseData is Map ? response.responseData as Map : {};
+        return (resData['data'] is Map) ? resData['data'] as Map : null;
+      }
+    } catch (e) {
+      debugPrint('❌ LoyaltyCardController getAppleWalletInfo Exception: $e');
     } finally {
       isLoading.value = false;
     }
