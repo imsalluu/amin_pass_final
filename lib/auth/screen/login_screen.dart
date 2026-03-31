@@ -1,3 +1,4 @@
+import 'package:amin_pass/core/services/network/network_client.dart';
 import 'package:amin_pass/auth/controller/login_controller.dart';
 import 'package:amin_pass/auth/screen/forgot_password_email_screen.dart';
 import 'package:amin_pass/auth/screen/scan_shop_screen.dart';
@@ -8,6 +9,7 @@ import 'package:amin_pass/common/screen/shop_name_show_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,16 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final loginController = Get.find<LoginController>();
 
-    final success = await loginController.login(
+    final response = await loginController.login(
       email: _emailController.text.trim(),
       password: _passwordController.text,
     );
 
     if (!mounted) return;
 
-    if (!success) {
+    if (!response.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loginController.errorMessage.value)),
+        SnackBar(content: Text(response.errorMassage ?? "Invalid email or password")),
       );
       return;
     }
@@ -378,7 +380,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final Uri url = Uri.parse(
+                              'https://play.google.com/store/apps/details?id=com.aminpass.aminpass&hl=en');
+                          if (!await launchUrl(url)) {
+                            throw Exception('Could not launch $url');
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF7AA3CC),
                           shape: RoundedRectangleBorder(

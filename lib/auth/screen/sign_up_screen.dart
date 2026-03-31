@@ -1,3 +1,4 @@
+import 'package:amin_pass/core/services/network/network_client.dart';
 import 'package:amin_pass/auth/screen/login_screen.dart';
 import 'package:amin_pass/auth/screen/otp_forgot_password_screen.dart';
 import 'package:amin_pass/auth/screen/scan_shop_screen.dart';
@@ -203,8 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }
 
                         final authController = Get.find<AuthController>();
-
-                        final success = await authController.register(
+                        final response = await authController.register(
                           name: _customerNameController.text.trim(),
                           email: _emailController.text.trim(),
                           password: _passwordController.text,
@@ -212,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         if (!mounted) return;
 
-                        if (success) {
+                        if (response.isSuccess) {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -222,8 +222,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           );
                         } else {
+                          final errorMessage = response.errorMassage ?? "Signup failed";
+                          final bool isPreviouslyRegistered = errorMessage.toLowerCase().contains("already") || 
+                                                              errorMessage.toLowerCase().contains("exists");
+
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Signup failed")),
+                            SnackBar(
+                              content: Text(errorMessage),
+                              action: isPreviouslyRegistered ? SnackBarAction(
+                                label: "Verify Now",
+                                textColor: Colors.yellow,
+                                onPressed: () async {
+                                  final email = _emailController.text.trim();
+                                  if (email.isEmpty) return;
+                                  
+                                  // Send new OTP
+                                  final sendRes = await authController.sendOtp(email: email);
+                                  if (sendRes.isSuccess) {
+                                    if (!mounted) return;
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => VerifyOtpScreen(email: email),
+                                      ),
+                                    );
+                                  } else {
+                                    if (!mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(sendRes.errorMassage ?? "Failed to send OTP")),
+                                    );
+                                  }
+                                },
+                              ) : null,
+                            ),
                           );
                         }
                       },

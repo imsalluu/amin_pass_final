@@ -1,3 +1,4 @@
+import 'package:amin_pass/core/services/network/network_client.dart';
 import 'package:amin_pass/app/token_service.dart';
 import 'package:amin_pass/auth/repo/auth_repository.dart';
 import 'package:amin_pass/auth/screen/login_screen.dart';
@@ -14,7 +15,7 @@ class AuthController extends GetxController {
   final Rxn<UserModel> user = Rxn<UserModel>();
 
   // REGISTER
-  Future<bool> register({
+  Future<NetworkResponse> register({
     required String name,
     required String email,
     required String password,
@@ -26,11 +27,11 @@ class AuthController extends GetxController {
       password: password,
     );
     isLoading.value = false;
-    return res.isSuccess;
+    return res;
   }
 
   // LOGIN
-  Future<bool> login({
+  Future<NetworkResponse> login({
     required String email,
     required String password,
   }) async {
@@ -42,7 +43,7 @@ class AuthController extends GetxController {
     );
 
     isLoading.value = false;
-    if (!res.isSuccess) return false;
+    if (!res.isSuccess) return res;
 
     final data = res.responseData!['data'];
 
@@ -52,18 +53,28 @@ class AuthController extends GetxController {
     );
 
     user.value = UserModel.fromJson(data['user']);
-    return true;
+    return res;
   }
 
   // EMAIL OTP VERIFY
-  Future<bool> verifyOtp({
+  Future<NetworkResponse> verifyOtp({
     required String email,
     required String otp,
   }) async {
     isLoading.value = true;
     final res = await _repo.verifyOtp(email: email, otp: otp);
     isLoading.value = false;
-    return res.isSuccess;
+    return res;
+  }
+
+  // SEND OTP
+  Future<NetworkResponse> sendOtp({
+    required String email,
+  }) async {
+    isLoading.value = true;
+    final res = await _repo.sendOtp(email: email);
+    isLoading.value = false;
+    return res;
   }
 
   // LOGOUT

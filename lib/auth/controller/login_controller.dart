@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../auth/repo/auth_repository.dart';
 import '../../app/token_service.dart';
 import '../../common/model/user_model.dart';
+import '../../core/services/network/network_client.dart';
 
 class LoginController extends GetxController {
   final AuthRepository _repo;
@@ -14,7 +15,7 @@ class LoginController extends GetxController {
   final Rxn<UserModel> user = Rxn<UserModel>();
   final RxString errorMessage = ''.obs;
 
-  Future<bool> login({
+  Future<NetworkResponse> login({
     required String email,
     required String password,
   }) async {
@@ -29,8 +30,8 @@ class LoginController extends GetxController {
     isLoading.value = false;
 
     if (!response.isSuccess) {
-      errorMessage.value = "Invalid email or password";
-      return false;
+      errorMessage.value = response.errorMassage ?? "Invalid email or password";
+      return response;
     }
 
     final data = response.responseData!['data'];
@@ -58,7 +59,7 @@ class LoginController extends GetxController {
         url: userModel.qrCodeUrl ?? '',
       );
     }
-    return true;
+    return response;
   }
 
   bool get isEmailVerified => user.value?.isVerified ?? false;

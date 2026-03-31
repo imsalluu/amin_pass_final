@@ -6,6 +6,7 @@ class ApiUrls {
   static const String register = "$baseUrl/customer/register";
   static const String login = "$baseUrl/customer/auth/login";
   static const String otpVerify = "$baseUrl/customer/otp/verify";
+  static const String otpSend = "$baseUrl/customer/otp/send";
   static const String refreshToken = "$baseUrl/customer/auth/refresh-token";
   static const String forgotPassword = "$baseUrl/customer/auth/forgot-password";
   static const String verifyForgotOtp =

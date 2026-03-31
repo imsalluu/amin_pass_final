@@ -48,6 +48,17 @@ class AuthRepository {
     );
   }
 
+  Future<NetworkResponse> sendOtp({
+    required String email,
+  }) {
+    return _client.postRequest(
+      ApiUrls.otpSend,
+      body: {
+        "email": email,
+      },
+    );
+  }
+
   /// 🔄 REFRESH TOKEN
   Future<NetworkResponse> refreshToken({
     required String refreshToken,
