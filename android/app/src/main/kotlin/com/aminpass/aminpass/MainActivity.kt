@@ -1,4 +1,4 @@
-package com.example.amin_pass
+package com.aminpass.aminpass
 
 import io.flutter.embedding.android.FlutterActivity
 

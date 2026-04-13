@@ -1,11 +1,14 @@
-import 'package:amin_pass/common/controller/shop_branch_controller.dart';
-import 'package:amin_pass/profile/controller/profile_controller.dart';
-import 'package:amin_pass/profile/controller/qr_code_controller.dart';
+import 'package:amin_pass/core/services/location_service.dart';
+import 'package:amin_pass/core/services/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import '../../auth/repo/auth_repository.dart';
 import '../../app/token_service.dart';
 import '../../common/model/user_model.dart';
 import '../../core/services/network/network_client.dart';
+import '../../common/controller/shop_branch_controller.dart';
+import '../../profile/controller/profile_controller.dart';
+import '../../profile/controller/qr_code_controller.dart';
 
 class LoginController extends GetxController {
   final AuthRepository _repo;
@@ -59,6 +62,17 @@ class LoginController extends GetxController {
         url: userModel.qrCodeUrl ?? '',
       );
     }
+
+    // Trigger FCM Token update
+    FirebaseMessaging.instance.getToken().then((token) {
+      if (token != null) {
+        Get.find<NotificationService>().updateTokenOnServer(token);
+      }
+    });
+
+    // Start Periodic Location Update
+    Get.find<LocationService>().startPeriodicLocationUpdate();
+
     return response;
   }
 

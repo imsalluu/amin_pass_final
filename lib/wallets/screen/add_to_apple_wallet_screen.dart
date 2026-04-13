@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:amin_pass/card/controller/loyalty_card_controller.dart';
 import 'package:amin_pass/card/model/loyalty_card_model.dart';
 import 'package:amin_pass/core/services/network/network_client.dart';
@@ -164,7 +164,7 @@ class AddToAppleWalletScreen extends StatelessWidget {
             } else {
               // Fallback: try opening with OpenFile
               debugPrint("⚠️ launchUrl failed, trying OpenFile...");
-              final result = await OpenFile.open(file.path);
+              final result = await OpenFilex.open(file.path);
               debugPrint("📂 OpenFile result: ${result.type} - ${result.message}");
               
               if (result.type != ResultType.done) {
@@ -384,7 +384,7 @@ class AddToAppleWalletScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF7AA3CC),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  disabledBackgroundColor: const Color(0xFF7AA3CC).withOpacity(0.6),
+                  disabledBackgroundColor: const Color(0xFF7AA3CC).withValues(alpha: 0.6),
                 ),
                 child: cardController.isLoading.value
                     ? const SizedBox(
@@ -403,7 +403,7 @@ class AddToAppleWalletScreen extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: buttonTextColor.withOpacity(0.3)),
+                side: BorderSide(color: buttonTextColor.withValues(alpha: 0.3)),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               child: Text("Cancel", style: TextStyle(color: buttonTextColor, fontWeight: FontWeight.bold)),
@@ -418,8 +418,7 @@ class AddToAppleWalletScreen extends StatelessWidget {
     // 💻 Desktop/Web layout
     if (isDesktop) {
       return Scaffold(
-        backgroundColor:
-        isDark ? theme.colorScheme.background : const Color(0xFFF5F7FA),
+        backgroundColor: isDark ? theme.colorScheme.surface : Colors.white,
         body: Column(
           children: [
             // Header Bar
@@ -454,10 +453,10 @@ class AddToAppleWalletScreen extends StatelessWidget {
 
     // 📱 Mobile layout (unchanged)
     return Scaffold(
-      backgroundColor: isDark ? theme.colorScheme.background : Colors.white,
+      backgroundColor: isDark ? theme.colorScheme.surface : Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: isDark ? theme.colorScheme.background : Colors.white,
+        backgroundColor: isDark ? theme.colorScheme.surface : Colors.white,
         elevation: 0.4,
         centerTitle: true,
         title: Text(

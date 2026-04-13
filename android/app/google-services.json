@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "322418088241",
+    "project_id": "aminpass-efd2c",
+    "storage_bucket": "aminpass-efd2c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322418088241:android:fec1187e8f3f7dc84d7810",
+        "android_client_info": {
+          "package_name": "com.aminpass.aminpass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKVwP1sDeVS47E3WHjaB8XOUXE50uX0m4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

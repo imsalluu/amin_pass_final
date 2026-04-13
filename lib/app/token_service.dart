@@ -5,16 +5,15 @@ class TokenService {
   static String? refreshToken;
   static String? activeBranchId; // ✅ NEW
 
-
   static const _accessKey = 'access_token';
   static const _refreshKey = 'refresh_token';
 
   static bool get isLoggedIn => accessToken != null;
 
-
   static void setActiveBranch(String branchId) {
     activeBranchId = branchId;
   }
+
   /// 🔹 Load tokens on app start
   static Future<void> loadTokens() async {
     final prefs = await SharedPreferences.getInstance();

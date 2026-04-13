@@ -14,7 +14,7 @@ class AminPass extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
        return GetMaterialApp(
-         title: "Amin Pass",
+         title: "AminPass",
           debugShowCheckedModeBanner: false,
           theme: AppThemeData.lightTheme,
           darkTheme: AppThemeData.darkTheme,

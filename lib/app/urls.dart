@@ -1,6 +1,6 @@
 class ApiUrls {
-  static const String baseUrl = "https://test13.fireai.agency/api";
-  static const String mediaBaseUrl = "https://test13.fireai.agency/";
+  static const String baseUrl = "https://api.aminpass.com/api";
+  static const String mediaBaseUrl = "https://api.aminpass.com/api";
 
   // Auth
   static const String register = "$baseUrl/customer/register";
@@ -42,4 +42,6 @@ class ApiUrls {
   static const String appleWalletLink = "$baseUrl/customer/wallet/apple-wallet-link";
   static const String getMyAddedCards = "$baseUrl/customers/cards/my-cards";
   static const String saveCardToWallet = "$baseUrl/customer/wallet/save-card";
+  static const String updateFcmToken = "$baseUrl/customer/geo/update-fcm-token";
+  static const String updateLocation = "$baseUrl/customer/geo/location";
 }

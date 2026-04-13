@@ -1,3 +1,4 @@
+import 'package:amin_pass/core/services/location_service.dart';
 import 'package:amin_pass/core/services/network/network_client.dart';
 import 'package:amin_pass/app/token_service.dart';
 import 'package:amin_pass/auth/repo/auth_repository.dart';
@@ -88,6 +89,12 @@ class AuthController extends GetxController {
       await storage.erase();
       
       user.value = null;
+      
+      // Stop periodic location updates
+      if (Get.isRegistered<LocationService>()) {
+        Get.find<LocationService>().stopPeriodicUpdate();
+      }
+      
       debugPrint('✅ AuthController: Logout complete. Session cleared.');
       
       Get.offAll(() => const LoginScreen());
